@@ -1,0 +1,204 @@
+
+
+
+<html>
+	<head>
+		<title>Science of Communication: Is this a Motivation Sentence?</title>
+        
+		<!-- link to Google Web Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Average+Sans' rel='stylesheet' type='text/css'>
+            <meta description="Interactive tool to help you write a better opening sentence to your next email or memo.">
+            <meta keywords="email, memo, motivation, sentence, science, communication, Joel Whalen, professional, business, you, how to">
+            <meta name="msvalidate.01" content="7CB0E991BF42B8368A36F57C8201CF3C" />
+            <style>
+			* {
+            font-family: 'Average Sans', sans-serif;
+			}
+			
+			#wrapper {
+            width:1000px;
+            
+			}
+			
+			#resultsYouMe {
+            min-height:50px;
+            
+			}
+			
+			input {
+            font-size: 18px;
+			}
+            </style>
+            
+            <script language="Javascript">
+            
+			// "Is This a Motivation Sentence?"
+			// Scripted by Drew DePriest, May 2013
+			// while listening to "Levels" (the Gotye mashup)
+			// for the 5,000,000th time in two years.
+			// Sigh.
+            
+			// good words to find in a motivation sentence
+			// must include spaces around words so as to not false ID words like 'bayou'
+			var youKeyWord01 = "you";
+			var youKeyWord02 = "your";
+			var youKeyWord03 = "you're";
+			var youKeyWord04 = "you've";
+			
+			// build the RegExp parameters to check matches against
+			// use RegExp to prevent false matches; only find specific word
+			var youPatt01 = "(?:^|\\b|\\s)(" + youKeyWord01 + ")(?:$|\\b|\\s)";
+			var youPatt02 = "(?:^|\\b|\\s)(" + youKeyWord02 + ")(?:$|\\b|\\s)";
+			var youPatt03 = "(?:^|\\b|\\s)(" + youKeyWord03 + ")(?:$|\\b|\\s)";
+			var youPatt04 = "(?:^|\\b|\\s)(" + youKeyWord04 + ")(?:$|\\b|\\s)";
+			
+			var youReg01 = new RegExp(youPatt01);
+			var youReg02 = new RegExp(youPatt02);
+			var youReg03 = new RegExp(youPatt03);
+			var youReg04 = new RegExp(youPatt04);
+			
+			// bad words to find in a motivation sentence
+			var meKeyWord01 = "i";
+			var meKeyWord02 = "me";
+			var meKeyWord03 = "my";
+			
+			// pull these out specifically to tell the reader which pronoun they used incorrectly
+			var flagI = false;
+			var flagMe = false;
+			var flagMy = false;
+			
+			// build the RegExp parameters to check matches against
+			// use RegExp to prevent false matches; only find specific word
+			var mePatt01 = "(?:^|\\b|\\s)(" + meKeyWord01 + ")(?:$|\\b|\\s)";
+			var mePatt02 = "(?:^|\\b|\\s)(" + meKeyWord02 + ")(?:$|\\b|\\s)";
+			var mePatt03 = "(?:^|\\b|\\s)(" + meKeyWord03 + ")(?:$|\\b|\\s)";
+			
+			var meReg01 = new RegExp(mePatt01);
+			var meReg02 = new RegExp(mePatt02);
+			var meReg03 = new RegExp(mePatt03);
+			
+			// check the grammatical voice of the sentence
+			var actPass01 = " is ";
+			var actPass02 = " are ";
+			var actPass03 = " was ";
+			var actPass04 = " were ";
+			
+			// set flags to determine what to display
+			var youFlag = false;
+			var meFlag = false;
+			var voiceFlag = false;
+			
+			function checkSentence(sentence) {
+            
+            var sentStr = sentence.value.toLowerCase();
+            //alert("got the sentence: " + sentence.value.toLowerCase());
+			
+            // check for "you" words (second condition checks for sentences beginning with "you")
+            if(sentStr.match(youReg01) != null || sentStr.match(youReg02) != null || sentStr.match(youReg03) != null || sentStr.match(youReg04) != null || sentStr.indexOf("you") == 0)
+            {
+            youFlag = true;
+            }
+            else
+            {
+            youFlag = false;
+            }
+            
+            // check for "me" words
+            if(sentStr.match(meReg01) != null){	flagI = true;} else { flagI = false;}
+            if(sentStr.match(meReg02) != null){	flagMe = true;} else { flagMe = false;}
+            if(sentStr.match(meReg03) != null){	flagMy = true;} else { flagMy = false;}
+            
+            if(flagI || flagMe || flagMy)
+            {
+            meFlag = true;
+            } else {
+            meFlag = false;
+            }
+            
+            // check for passive voice
+            if(sentStr.indexOf(actPass01) == -1 && sentStr.indexOf(actPass02) == -1 && sentStr.indexOf(actPass03) == -1 && sentStr.indexOf(actPass04) == -1)
+            {
+            voiceFlag = false;
+            //alert("Wunderbar! You really know how to write in active voice!");
+            } else {
+            voiceFlag = true;
+            //alert("You can really step up your game by writing in active voice. Try again.");
+            }
+            
+            // now, do something with the flags here to display feedback to the user
+            // web-safe colors:
+            // Green = #99FF00
+            // Red = #FF3300
+            var divYouMe = document.getElementById('resultsYouMe');
+            var divVoice = document.getElementById('resultsVoice');
+            
+            //alert("youFlag = " + youFlag + " and meFlag = " + meFlag);
+            
+            if(youFlag && !meFlag)
+            {
+            divYouMe.style.backgroundColor = "#99FF00";
+            divYouMe.innerHTML = "<h2>Great job!</h2>You really know how to focus on your reader. Be proud of your skills.";
+            }
+            else if(!youFlag && !meFlag)
+            {
+            divYouMe.style.backgroundColor = "#FF3300";
+            divYouMe.innerHTML = "<h2>Almost!</h2>While you've done a good job of not using third person pronouns (I, me, my), you've neglected to focus on your reader. Try again. This time, use more 'you' words and eliminate any mention of yourself.";
+            }
+            else
+            {
+            divYouMe.style.backgroundColor = "#FF3300";
+            divYouMe.innerHTML = "<h2>So close!</h2>Remember, you want to focus your motivation sentence entirely on your reader. Try again. This time, use more 'you' words and eliminate any mention of yourself.";
+            
+            divYouMe.innerHTML += "<br/><br/>Specifically, try removing your third person pronouns:<br/> ";
+            if(flagI){divYouMe.innerHTML += "<strong>I</strong><br>";}
+            if(flagMe){divYouMe.innerHTML += "<strong>me</strong><br>";}
+            if(flagMy){divYouMe.innerHTML += "<strong>my</strong><br>";}
+            
+            }
+            
+            return false;
+            
+			} // close the function checkSentence()
+            
+            </script>
+            
+            </head>
+            <body>
+            <h1>Is this a motivation sentence?</h1>
+            
+			<em>Enter your motivation sentence here.</em>
+			<!-- include the onkeypress event to force user to click the "Check Sentence" button, not just hit "enter" -->
+			<form onkeypress="return event.keyCode != 13;">
+            <input type="textbox" name="sentence" size="125"><br/>
+            <input type="button" value="Check Sentence" onClick="checkSentence(sentence)">
+			</form>
+            
+            <div name="wrapper" id="wrapper" align="left">
+			<div name="resultsYouMe" id="resultsYouMe">
+            <!-- Show results here -->	
+			</div>
+			<br/>
+			<div name="resultsVoice" id="resultsVoice">
+            <!-- Show results here -->
+			</div>
+            </div>	
+            
+            <!-- Google Analytics piece -->
+            <script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            
+			ga('create', 'UA-41014584-1', 'motivationsentence.com');
+			ga('send', 'pageview');
+            
+            </script>
+            
+            <p>
+                    <em>Adapted from <a href="http://www.joelwhalen.com" target="_new">Dr. Joel Whalen</a>'s </em><br> <a href="http://www.amazon.com/Professional-Communications-Toolkit-Joel-Whalen/dp/1412927161" target="_new"><img src="pro-comm-toolkit-amazon.png"></a>
+            </p>
+            
+            </body>
+            
+            </html>
